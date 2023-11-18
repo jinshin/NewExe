@@ -1,0 +1,906 @@
+
+<!-- saved from url=(0063)http://bytepointer.com/resources/win16_ne_exe_format_win3.0.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>BYTE* / Windows 3.0 16-bit NE Executable Format</title>
+<style type="text/css">
+<!--
+@font-face                  {font-family:'ibmvga9';src:url('/vgacharst/ibmvga9.ttf')}
+body                        {padding-left:9px;padding-top:8px;padding-bottom:8px;padding-right:9px;background-color:#000000;color:#AAAAAA;margin:0px}
+table,th,td,li,ul           {font-family:inherit;font-size:inherit}
+.embedbody                  {font-family:sans-serif;font-size:10pt;background-color:#1D3662;margin:0px;color:#E0E0E0;padding-left:4px;padding-top:3px;padding-bottom:3px;padding-right:4px}
+form                        {margin:0px}
+.root_string                {color:#FFFFFF;background-color:#0000FF}
+.root_comment               {background-color:#AA0000;color:#FFFFFF}
+.root_sectionlink:link      {background-color:#1D3662;color:#55FF55;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt;text-decoration:none}
+.root_sectionlink:visited   {background-color:#1D3662;color:#35DF35;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt;text-decoration:none}
+.root_sectionlink:active    {color:#FFFFFF;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt;text-decoration:none}
+.root_sectionlink:hover     {color:#FFFFFF;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt;text-decoration:none}
+.bcppmsglink:link           {color:#AA00AA}
+.bcppmsglink:visited        {color:#575757}
+.bcppmsglink:active         {color:#FFFFFF}
+.bcppmsglink:hover          {color:#000000}
+.tdglyph                    {width:9px;height:16px;white-space:nowrap}
+.tdglyphautohorzbard        {background-image:url('/vgacharst/dhm.png');background-repeat:repeat-x;height:16px}
+.tdglyphautohorzbars        {background-image:url('/vgacharst/shm.png');background-repeat:repeat-x;height:16px}
+.tdglyphautovertbard        {background-image:url('/vgacharst/dvm.png');background-repeat:repeat-y;width:9px}
+.tdglyphautovertbars        {background-image:url('/vgacharst/svm.png');background-repeat:repeat-y;width:9px}
+.tdglyphautohorzscrollbg    {background-image:url('/vgacharst/scrollbg.png');background-repeat:repeat-x;height:16px}
+.tdglyphautovertscrollbg    {background-image:url('/vgacharst/scrollbg.png');background-repeat:repeat-y;width:9px}
+.tdglyphautohorzbars_blk    {background-image:url('/vgacharst/shm_blk.png');background-repeat:repeat-x;height:16px}
+.tdglyphautovertbars_blk    {background-image:url('/vgacharst/svm_blk.png');background-repeat:repeat-y;width:9px}
+.dbxtable                   {background-color:#1D3662;width:100%}
+.dbxtitle                   {background-color:#1D3662;color:#FFFFFF;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt}
+.dbxcontent                 {background-color:#1D3662;color:#8888FF;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt;height:100%}
+.sbxtable                   {background-color:#00AAAA;width:100%}
+.sbxtitle                   {background-color:#00AAAA;color:#1D3662;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt}
+.sbxcontent                 {background-color:#00AAAA;color:#1D3662;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt;height:100%;word-wrap:break-word}
+.sbx_ddmenutable            {background-color:#AAAAAA;width:100%}
+.sbx_ddmenutitle            {background-color:#AAAAAA;color:#000000;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt}
+.sbx_ddmenucontent          {background-color:#AAAAAA;color:#000000;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt;height:100%;word-wrap:break-word}
+.menubar                    {background-color:#AAAAAA;color:#000000;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt;white-space:nowrap}
+.menubarhot                 {color:#AA0000;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt;white-space:nowrap}
+.menubardisabled            {color:#5A5A5A;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt;white-space:nowrap}
+.menubarlink                {text-decoration:none}
+.menubarlink:link           {color:#000000;text-decoration:none}
+.menubarlink:visited        {color:#000000}
+.menubarlink:active         {color:#FFFFFF}
+.menubarlink:hover          {background-color:#00AA00;text-decoration:none}
+.menubarhotlink             {text-decoration:none}
+.menubarhotlink:link        {color:#AA0000;text-decoration:none}
+.menubarhotlink:visited     {color:#AA0000}
+.menubarhotlink:active      {color:#AA0000}
+.menubarhotlink:hover       {background-color:#00AA00;text-decoration:none}
+
+/* drop down menu functionality */
+.ddul                       {list-style:none;margin:0px;padding:0px;position:relative}
+.ddli,.ddlitop              {font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt;padding:0px}
+
+/* for some reason menus break under IE when the following inheritance chain is > 2*/
+li.ddlitop  ul.ddul         {display:none;position:absolute;background-color:#AAAAAA;top:1em;left:-0.5em}  /* hide sub-menus */
+
+/* drop-down the <ul> menu upon hover of the <li> item */
+ul.ddul li:hover ul.ddul,   /*ff and all other browsers*/
+li.li_hover_hack ul.ddul     /*ie6 and up*/
+                            {display:block}
+
+
+.navbarcontainer            {padding-left:8px;padding-top:6px;padding-right:32px}
+.textfilecontainer          {padding-left:6px;padding-top:6px;padding-right:32px}
+.rootbackbutton             {font-family:'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt;border:outset 4px #A0A0A0;background-color:#25457D}
+.header                     {font-weight:bold;font-size:16pt;color:#7CFF35}
+.subheader                  {font-weight:bold;font-size:14pt;color:#D7D707}
+.tutsubheader               {font-weight:bold;font-size:12pt;color:#D7D707}
+.dateheader                 {font-family:Tahoma, Verdana, Segoe, sans-serif;font-size:10pt;color:#A0A0A0}
+.datecontent                {font-family:Tahoma, Verdana, Segoe, sans-serif;font-size:10pt;color:#D0D0D0}
+.tutcontainer               {font-family:Tahoma, Verdana, Segoe, sans-serif;font-size:12pt}
+
+.noticeheader               {font-weight:bold;font-size:12pt;color:#81E4FF}
+.noticetext                 {font-family:Verdana, Geneva, sans-serif;font-size:11pt;color:#8DADFF}
+.formcaption                {font-weight:bold;font-size:12pt;color:#2EFFE0}
+.lindent                    {padding-left:32px}
+.buildvercell               {padding-left:16px}
+.errortext                  {color:#FF0000}
+
+.jumplink:link              {color:#16FF26}
+.jumplink:visited           {color:#16FF26}
+.jumplink:active            {color:#FFFFFF}
+.jumplink:hover             {background-color:#3C71CD;color:#000000}
+.jumplink                   {text-decoration:none}
+
+.domnavpagelink:link        {color:#FFC508}
+.domnavpagelink:visited     {color:#FFC508}
+.domnavpagelink:active      {color:#FFFFFF}
+.domnavpagelink:hover       {background-color:#FFC508;color:#000000}
+.domnavpagelink             {text-decoration:none;font-family:Verdana, Geneva, sans-serif;font-size:9pt}
+.domnavpagecurpage          {font-family:Verdana, Geneva, sans-serif;font-weight:bold;font-size:9pt;color:#FFDF12}
+.domnavpagetext             {font-family:Verdana, Geneva, sans-serif;font-size:9pt;color:#993F03}
+
+.keywordtbllink_table       {padding-left:6px;padding-right:6px;padding-top:4px;padding-bottom:4px;border:solid 1px #909090}
+.keywordtbllink_sectheader  {font-family:Verdana, Geneva, sans-serif;font-weight:bold;font-size:10pt;color:#30F8FF}
+.keywordtbl                 {padding-left:32px;padding-bottom:24px;padding-top:8px}
+.keywordtbl_sectheader      {font-family:Verdana, Geneva, sans-serif;font-weight:bold;font-size:14pt;color:#7CFF35;background-color:#274A86;width:450px;padding-left:12px;padding-top:6px;padding-bottom:6px}
+.keywordtbl_header          {font-family:Verdana, Geneva, sans-serif;font-weight:bold;font-size:9pt;color:#30F8FF;padding-bottom:2px}
+
+.cmdlinebracket             {font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;font-size:12pt;font-weight:bold}
+.cmdlinelink                {font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;font-size:9pt;font-style:italic;text-decoration:none;font-weight:bold}
+.cmdlinelink:link           {color:#E0FFE0}
+.cmdlinelink:visited        {color:#E0FFE0}
+.cmdlinelink:hover          {color:#FFFFFF;background-color:#3360AE}
+
+.disclaimer                 {font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:9pt;color:#A0A0A0}
+.summary                    {font-family:Verdana, Geneva, sans-serif;font-size:10pt;color:#F5F5F5}
+
+.dlc                        {font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:9pt;color:#FFFFFF;white-space:nowrap;padding-right:8px}
+
+.quickcell                  {padding-left:4px;padding-right:4px}
+.quickcellr                 {padding-left:4px;padding-right:4px;text-align:right}
+
+.progversion                {font-family:'Arial Black', 'Arial Bold', Gadget, sans-serif;font-size:11pt;color:#7CFF35}
+.progfileinfo               {font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;font-size:9pt;color:#FFFFFF}
+.progsummary                {font-family:Verdana, Geneva, sans-serif;font-size:10pt;color:#E0E0E0}
+.progstats                  {font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:9pt;color:#C0C0FF}
+td                          {font-family:Verdana, Geneva, sans-serif;font-size:9pt;color:#A0A0B0}
+th                          {font-family:Verdana, Geneva, sans-serif;font-size:9pt;color:#D0D0F0;font-weight:bold}
+
+.ulmain                     {display:block;list-style-type:disc;margin-top:1em;margin-bottom:1em;margin-left:0;margin-right:0;padding-left:16px}
+
+li                          {font-family:Verdana, Geneva, sans-serif;font-size:inherit;color:#E0E0E0;padding-bottom:6px}
+pre                         {font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;font-size:10pt;color:#F0F0F0}
+.prebg                      {font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;font-size:10pt;color:#F0F0F0;background-color:#12223E;padding-left:6px;padding-bottom:2px;padding-top:4px;padding-right:6px}
+.emailboxpre                {font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;font-size:11pt;color:#14FF0C;background-color:#172B4E;white-space:pre-wrap;width:800px;padding-left:8px;padding-bottom:6px;padding-top:6px;border:solid 1px #132441}
+.codeboxpre                 {white-space:pre;font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;font-size:8pt;color:#00FF00;background-color:#101010;padding-left:8px;padding-bottom:6px;border:solid 2px #2B5261}
+.textfile                   {font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;font-size:10pt;color:#FFFFFF;margin:0px}
+.quote                      {font-family:Verdana, Geneva, sans-serif;font-size:9pt;font-style:italic;padding-left:12px;color:#F3FF05}
+.quotedterminal             {font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;font-style:normal}
+.quotedli                   {font-family:Verdana, Geneva, sans-serif;font-size:9pt;font-style:italic;color:#F3FF05}
+.indentblock                {padding-left:12px}
+
+deletedli                   {font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif}
+
+a:link                      {color:#FFFFFF}
+a:visited                   {color:#909090}
+a:active                    {color:#D0D0FF}
+a:hover                     {color:#FFD0D0}
+
+.codetitle                  {font-family:monospace;font-size:9pt;font-weight:bold;color:#FFFFFF}
+.code                       {font-family:monospace;font-size:9pt;color:#A0FFF0}
+.codesupplink               {font-family:monospace;font-size:9pt;font-style:italic;text-decoration:none}
+.quotetitle                 {font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:9pt;font-weight:bold}
+.hexhilight                 {background-color:#DADA80;color:#0000FF}
+.highlight                  {color:#FFFF00}
+.codehilite                 {color:#FFFF00}
+.tooldesc                   {color:#FFC000;font-size:10pt}
+.aAddr                      {color:#C0C0C0}
+.aOpc                       {color:#808080}
+.aInst                      {color:#00AA00}
+.aOpr                       {color:#FFFF57}
+.aCom                       {color:#D0D0D0;background-color:#800000}
+.aOp                        {color:#A8A8A8}
+.aBrak                      {color:#00A8A8}
+.asmboxpre                  {white-space:pre;font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;font-size:10pt;font-weight:bold;color:#C0C0C0;background-color:#000000;padding-left:6px;padding-right:6px;padding-bottom:4px;padding-top:4px;border:solid 2px #2B5261}
+.asmboxprevga               {white-space:pre;font-family:ibmvga9,'Lucida Console', 'Lucida Sans Typewriter', Monaco, 'Bitstream Vera Sans Mono', monospace;font-size:12pt;color:#C0C0C0;background-color:#000000;padding-left:6px;padding-bottom:2px;padding-right:6px;padding-top:4px;border:solid 1px #2B5261}
+.asmboxcontainer            {padding-left:12px}
+.hexdumppre                 {white-space:pre;font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;font-size:10pt;color:#9CE5FF}
+.codepre                    {white-space:pre;font-family:'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;font-size:10pt;color:#E0E0E0;background-color:#182848;padding-top:4px;padding-bottom:4px;padding-left:6px;padding-right:6px}
+.codeprebox                 {padding-left:12px}
+
+-->
+</style>
+
+<script language="javascript">
+
+function i2o(id){if (document.getElementById){return(document.getElementById(id));}else if (document.all){return(document.all[id]);}else if (document.layers){return(document.layers[id]);}}
+var strd0n = '';
+
+//IE6+ hack - IE doesn't properly handle li:hover and dropdowns are broken unless we convert between css:hover and javascript's mouseover/mouseout
+startList = function()
+{
+    //if browser is IE6 and above
+    if (document.all && document.getElementsByTagName)
+    {
+        var elems = document.getElementsByTagName("li");
+        for (i=0; elems && i<elems.length; ++i)
+        {
+            var node = elems[i];
+            if (-1 != node.className.indexOf("top"))
+            {
+                node.onmouseover=function() { this.className += " li_hover_hack"; }
+                node.onmouseout=function()  { this.className = this.className.replace(" li_hover_hack", ""); }
+            }
+        }
+    }
+
+    i2o('d0n').innerHTML = strd0n;
+
+} //startList()
+
+window.onload = startList;
+</script>
+
+<script language="javascript">
+function f9916()
+{
+
+return();
+}
+strd0n="" + f9916() + "";
+</script>
+
+
+</head>
+<body>
+<table cellspacing="0" cellpadding="0" class="dbxtable">
+<tbody><tr>
+    <td valign="bottom">
+        <table cellspacing="0" cellpadding="0">
+        <tbody><tr><td class="tdglyph"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dul.png" width="9" height="16"></td></tr>
+        </tbody></table>
+    </td>
+    <td valign="bottom" width="100%">
+        <table cellspacing="0" cellpadding="0" width="100%">
+        <tbody><tr>
+            <td class="tdglyph" valign="bottom"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dhm.png" width="9" height="16"></td>
+            <td class="tdglyph" valign="bottom"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/ob.png" width="9" height="16"></td>
+            <td class="tdglyph" valign="bottom"><a href="http://bytepointer.com/index.htm"><img border="0" src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/but.png" width="9" height="16"></a></td>
+            <td class="tdglyph" valign="bottom"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/cb.png" width="9" height="16"></td>
+            <td valign="bottom" width="100%" class="tdglyphautohorzbard" style="background-position:left bottom">
+                <table align="center" cellspacing="0" cellpadding="0"><tbody><tr><td class="dbxtitle">&nbsp;&lt;-- <a href="http://bytepointer.com/resources/index.htm">Resources Index</a>&nbsp;/&nbsp;Windows 3.0 16-bit NE Executable Format&nbsp;</td></tr></tbody></table>
+            </td>
+            <td valign="bottom"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="dbxtitle">1</td></tr></tbody></table></td>
+            <td class="tdglyph" valign="bottom"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dhm.png" width="9" height="16"></td>
+            <td class="tdglyph" valign="bottom"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/ob.png" width="9" height="16"></td>
+            <td class="tdglyph" valign="bottom"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/au.png" width="9" height="16"></td>
+            <td class="tdglyph" valign="bottom"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/cb.png" width="9" height="16"></td>
+            <td class="tdglyph" valign="bottom"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dhm.png" width="9" height="16"></td>
+        </tr>
+        </tbody></table>
+    </td>
+    <td valign="bottom">
+        <table cellspacing="0" cellpadding="0">
+        <tbody><tr><td class="tdglyph"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dur.png" width="9" height="16"></td></tr>
+        </tbody></table>
+    </td>
+</tr>
+<tr>
+    <td valign="top" height="100%">
+        <table cellspacing="0" cellpadding="0" height="100%">
+        <tbody><tr><td width="100%" class="tdglyphautovertbard" style="background-position:left top"></td></tr>
+        </tbody></table>
+    </td>
+    <td valign="top">
+        <table cellspacing="0" cellpadding="0" width="100%">
+        <tbody><tr>
+            <td width="100%">
+<table cellspacing="0" cellpadding="0" width="100%"><tbody><tr><td class="dbxcontent" width="100%" valign="top">
+<table cellspacing="0" cellpadding="0"><tbody><tr><td width="100%"><div class="embedbody">
+<div class="header">Windows 3.0 16-bit NE Executable Format</div><br><div class="textfilecontainer">
+<pre class="textfile">INF: Executable-File Header Format                            [P_WinSDK]
+
+3.00
+WINDOWS
+PSSONLY | Windows 3 Developers Notes softlib ENDUSER
+
+Summary:
+
+Note: This article is part of a set of seven articles, collectively
+called the "Windows 3.00 Developer's Notes." More information about
+the contents of the other articles, and procedures for ordering a
+hard-copy set, can be found in the knowledge base article titled "INF:
+The Windows 3.00 Developer's Notes" (Q65260).
+
+This article can be found in the Software/Data Library by searching on
+the word EXEFMT or S12688. EXEFMT was archived using the PKware
+file-compression utility.
+
+More Information:
+
+Microsoft defined the segmented executable file format for Windows
+applications and dynamic-link libraries (DLLs). This file format is
+also referred to as the New Executable Format. This new format is an
+extension of the existing MS-DOS .EXE format (old-style format). The
+purpose of the segmented executable format is to provide the
+information needed to support the dynamic linking and segmentation
+capabilities of the Windows environment.
+
+An executable file contains Microsoft Windows code and data, or
+Windows code, data, and resources. Specific fields have been added to
+the old-style .EXE format header to indicate the existence of the
+segmented file format. The old-style header may contain a valid
+executable program, called a stub program, that will be executed if
+the program is run on MS-DOS (without Windows). This stub program
+usually prints a message indicating that Microsoft Windows is required
+to run the program. The segmented executable format extensions also
+begin with a header that describes the contents and location of the
+executable image in the file. The loader uses this header information
+when it loads the executable segments in memory.
+
+
+======================================================================
+                     OLD-STYLE HEADER EXTENSIONS
+======================================================================
+
+The old-style header contains information the loader expects for a DOS
+executable file. It describes a stub program (WINSTUB) the loader can
+place in memory when necessary, it points to the new-style header, and
+it contains the stub programs relocation table.
+
+The following illustrates the distinct parts of the old-style
+executable format:
+
+        +-------------------------+
+    00h |  Old-style header info  |
+        +-------------------------+
+    20h |        Reserved         |
+        +-------------------------+
+    3Ch |   Offset to segmented   |
+        |       .EXE header       |
+        +-------------------------+
+    40h |  Relocation table and   |
+        |    DOS stub program     |
+        +-------------------------+
+        |  Segmented .EXE Header  |
+        |           .             |
+        |           .             |
+        |           .             |
+
+The word at offset 18h in the old-style .EXE header contains the
+relative byte offset to the stub program's relocation table. If this
+offset is 40h, then the double word at offset 3Ch is assumed to be the
+relative byte offset from the beginning of the file to the beginning
+of the segmented executable header. A new-format .EXE file is
+identified if the segmented executable header contains a valid
+signature. If the signature is not valid, the file is assumed to be an
+old-style format .EXE file. The remainder of the old-style format
+header will describe a DOS program, the stub. The stub may be any
+valid program but will typically be a program that displays an error
+message.
+
+======================================================================
+                         SEGMENTED EXE FORMAT
+======================================================================
+
+Because Windows executable files are often larger than one segment
+(64K), additional information (that does not appear in the old-style
+header) is required so that the loader can load each segment properly.
+The segmented EXE format was developed to provide the loader with this
+information.
+
+The segmented .EXE file has the following format:
+
+        +-----------------+
+    00h |  Old-style EXE  |
+        |      Header     |
+        +-----------------+
+    20h |    Reserved     |
+        +-----------------+
+    3Ch |    Offset to    | ---+
+        | Segmented Header|    |
+        +-----------------+    |
+    40h | Relocation Table|    |
+        |  &amp; Stub Program |    |
+        +-----------------+    |
+        |                 |    |
+        +-----------------+    |
+    xxh |  Segmented EXE  | &lt;--+
+        |      Header     |
+        +-----------------+
+        |  Segment Table  |
+        +-----------------+
+        | Resource Table  |
+        +-----------------+
+        |  Resident Name  |
+        |      Table      |
+        +-----------------+
+        | Module Reference|
+        |      Table      |
+        +-----------------+
+        | Imported Names  |
+        |      Table      |
+        +-----------------+
+        |   Entry Table   |
+        +-----------------+
+        |  Non-Resident   |
+        |   Name Table    |
+        +-----------------+
+        |   Seg #1 Data   |
+        |   Seg #1 Info   |
+        +-----------------+
+                .
+                .
+                .
+        +-----------------+
+        |   Seg #n Data   |
+        |   Seg #n Info   |
+        +-----------------+
+
+
+The following sections describe each of the components that make up
+the segmented EXE format. Each section contains a description of the
+component and the fields in the structures that make up that
+component.
+
+Note: All unused fields and flag bits are reserved for future use and
+must contain 0 (zero) values.
+
+======================================================================
+                         SEGMENTED EXE HEADER
+======================================================================
+
+The segmented EXE header contains general information about the EXE
+file and contains information on the location and size of the other
+sections. The Windows loader copies this section, along with other
+data, into the module table in the system data. The module table is
+internal data used by the loader to manage the loaded executable
+modules in the system and to support dynamic linking.
+
+The following describes the format of the segmented executable header.
+For each field, the offset is given relative to the beginning of the
+segmented header, the size of the field is defined, and a description
+is given.
+
+    Offset Size Description
+    ------ ---- -----------
+
+    00h     DW  Signature word.
+                "N" is low-order byte.
+                "E" is high-order byte.
+
+    02h     DB  Version number of the linker.
+
+    03h     DB  Revision number of the linker.
+
+    04h     DW  Entry Table file offset, relative to the beginning of
+                the segmented EXE header.
+    06h     DW  Number of bytes in the entry table.
+
+    08h     DD  32-bit CRC of entire contents of file.
+                These words are taken as 00 during the calculation.
+
+    0Ch     DW  Flag word.
+                0000h = NOAUTODATA
+                0001h = SINGLEDATA (Shared automatic data segment)
+                0002h = MULTIPLEDATA (Instanced automatic data
+                        segment)
+                2000h = Errors detected at link time, module will not
+                        load.
+                8000h = Library module.
+                        The SS:SP information is invalid, CS:IP points
+                        to an initialization procedure that is called
+                        with AX equal to the module handle. This
+                        initialization procedure must perform a far
+                        return to the caller, with AX not equal to
+                        zero to indicate success, or AX equal to zero
+                        to indicate failure to initialize. DS is set
+                        to the library's data segment if the
+                        SINGLEDATA flag is set. Otherwise, DS is set
+                        to the caller's data segment.
+
+                        A program or DLL can only contain dynamic
+                        links to executable files that have this
+                        library module flag set. One program cannot
+                        dynamic-link to another program.
+
+    0Eh     DW  Segment number of automatic data segment.
+                This value is set to zero if SINGLEDATA and
+                MULTIPLEDATA flag bits are clear, NOAUTODATA is
+                indicated in the flags word.
+
+                A Segment number is an index into the module's segment
+                table. The first entry in the segment table is segment
+                number 1.
+
+    10h     DW  Initial size, in bytes, of dynamic heap added to the
+                data segment. This value is zero if no initial local
+                heap is allocated.
+
+    12h     DW  Initial size, in bytes, of stack added to the data
+                segment. This value is zero to indicate no initial
+                stack allocation, or when SS is not equal to DS.
+
+    14h     DD  Segment number:offset of CS:IP.
+
+    18h     DD  Segment number:offset of SS:SP.
+                If SS equals the automatic data segment and SP equals
+                zero, the stack pointer is set to the top of the
+                automatic data segment just below the additional heap
+                area.
+
+                    +--------------------------+
+                    | additional dynamic heap  |
+                    +--------------------------+ &lt;- SP
+                    |    additional stack      |
+                    +--------------------------+
+                    | loaded auto data segment |
+                    +--------------------------+ &lt;- DS, SS
+
+    1Ch     DW  Number of entries in the Segment Table.
+
+    1Eh     DW  Number of entries in the Module Reference Table.
+    20h     DW  Number of bytes in the Non-Resident Name Table.
+
+    22h     DW  Segment Table file offset, relative to the beginning
+                of the segmented EXE header.
+
+    24h     DW  Resource Table file offset, relative to the beginning
+                of the segmented EXE header.
+
+    26h     DW  Resident Name Table file offset, relative to the
+                beginning of the segmented EXE header.
+
+    28h     DW  Module Reference Table file offset, relative to the
+                beginning of the segmented EXE header.
+
+    2Ah     DW  Imported Names Table file offset, relative to the
+                beginning of the segmented EXE header.
+
+    2Ch     DD  Non-Resident Name Table offset, relative to the
+                beginning of the file.
+
+    30h     DW  Number of movable entries in the Entry Table.
+
+    32h     DW  Logical sector alignment shift count, log(base 2) of
+                the segment sector size (default 9).
+
+    34h     DW  Number of resource entries.
+
+    36h     DB  Executable type, used by loader.
+                  02h = WINDOWS
+
+    37h-3Fh DB  Reserved, currently 0's.
+
+
+======================================================================
+                            SEGMENT TABLE
+======================================================================
+
+The segment table contains an entry for each segment in the executable
+file. The number of segment table entries are defined in the segmented
+EXE header. The first entry in the segment table is segment number 1.
+The following is the structure of a segment table entry.
+
+   Size Description
+   ---- -----------
+
+   DW   Logical-sector offset (n byte) to the contents of the segment
+        data, relative to the beginning of the file. Zero means no
+        file data.
+
+   DW   Length of the segment in the file, in bytes. Zero means 64K.
+
+   DW   Flag word.
+        0007h = TYPE_MASK  Segment-type field.
+        0000h = CODE       Code-segment type.
+        0001h = DATA       Data-segment type.
+        0010h = MOVEABLE   Segment is not fixed.
+        0040h = PRELOAD    Segment will be preloaded; read-only if
+                           this is a data segment.
+        0100h = RELOCINFO  Set if segment has relocation records.
+        F000h = DISCARD    Discard priority.
+
+   DW   Minimum allocation size of the segment, in bytes. Total size
+        of the segment. Zero means 64K.
+
+
+======================================================================
+                            RESOURCE TABLE
+======================================================================
+
+The resource table follows the segment table and contains entries for
+each resource in the executable file. The resource table consists of
+an alignment shift count, followed by a table of resource records. The
+resource records define the type ID for a set of resources. Each
+resource record contains a table of resource entries of the defined
+type. The resource entry defines the resource ID or name ID for the
+resource. It also defines the location and size of the resource. The
+following describes the contents of each of these structures:
+
+   Size Description
+   ---- -----------
+
+   DW   Alignment shift count for resource data.
+
+   A table of resource type information blocks follows. The following
+   is the format of each type information block:
+
+        DW  Type ID. This is an integer type if the high-order bit is
+            set (8000h); otherwise, it is an offset to the type string,
+            the offset is relative to the beginning of the resource
+            table. A zero type ID marks the end of the resource type
+            information blocks.
+
+        DW  Number of resources for this type.
+
+        DD  Reserved.
+
+        A table of resources for this type follows. The following is
+        the format of each resource (8 bytes each):
+
+            DW  File offset to the contents of the resource data,
+                relative to beginning of file. The offset is in terms
+                of the alignment shift count value specified at
+                beginning of the resource table.
+
+            DW  Length of the resource in the file (in bytes).
+
+            DW  Flag word.
+                0010h = MOVEABLE  Resource is not fixed.
+                0020h = PURE      Resource can be shared.
+                0040h = PRELOAD   Resource is preloaded.
+
+            DW  Resource ID. This is an integer type if the high-order
+                bit is set (8000h), otherwise it is the offset to the
+                resource string, the offset is relative to the
+                beginning of the resource table.
+
+            DD  Reserved.
+
+   Resource type and name strings are stored at the end of the
+   resource table. Note that these strings are NOT null terminated and
+   are case sensitive.
+
+   DB   Length of the type or name string that follows. A zero value
+        indicates the end of the resource type and name string, also
+        the end of the resource table.
+
+   DB   ASCII text of the type or name string.
+
+
+======================================================================
+                         RESIDENT-NAME TABLE
+======================================================================
+
+The resident-name table follows the resource table, and contains this
+module's name string and resident exported procedure name strings. The
+first string in this table is this module's name. These name strings
+are case-sensitive and are not null-terminated. The following
+describes the format of the name strings:
+
+   Size Description
+   ---- -----------
+
+   DB   Length of the name string that follows. A zero value indicates
+        the end of the name table.
+
+   DB   ASCII text of the name string.
+
+   DW   Ordinal number (index into entry table). This value is ignored
+        for the module name.
+
+
+======================================================================
+                        MODULE-REFERENCE TABLE
+======================================================================
+
+The module-reference table follows the resident-name table. Each entry
+contains an offset for the module-name string within the imported-
+names table; each entry is 2 bytes long.
+
+   Size Description
+   ---- -----------
+
+   DW   Offset within Imported Names Table to referenced module name
+        string.
+
+
+======================================================================
+                         IMPORTED-NAME TABLE
+======================================================================
+
+The imported-name table follows the module-reference table. This table
+contains the names of modules and procedures that are imported by the
+executable file. Each entry is composed of a 1-byte field that
+contains the length of the string, followed by any number of
+characters. The strings are not null-terminated and are case
+sensitive.
+
+   Size Description
+   ---- -----------
+
+   DB   Length of the name string that follows.
+
+   DB   ASCII text of the name string.
+
+
+======================================================================
+                             ENTRY TABLE
+======================================================================
+
+The entry table follows the imported-name table. This table contains
+bundles of entry-point definitions. Bundling is done to save space in
+the entry table. The entry table is accessed by an ordinal value.
+Ordinal number one is defined to index the first entry in the entry
+table. To find an entry point, the bundles are scanned searching for a
+specific entry point using an ordinal number. The ordinal number is
+adjusted as each bundle is checked. When the bundle that contains the
+entry point is found, the ordinal number is multiplied by the size of
+the bundle's entries to index the proper entry.
+
+The linker forms bundles in the most dense manner it can, under the
+restriction that it cannot reorder entry points to improve bundling.
+The reason for this restriction is that other .EXE files may refer to
+entry points within this bundle by their ordinal number. The following
+describes the format of the entry table bundles.
+
+   Size Description
+   ---- -----------
+
+   DB   Number of entries in this bundle. All records in one bundle
+        are either moveable or refer to the same fixed segment. A zero
+        value in this field indicates the end of the entry table.
+
+   DB   Segment indicator for this bundle. This defines the type of
+        entry table entry data within the bundle. There are three
+        types of entries that are defined.
+
+        000h = Unused entries. There is no entry data in an unused
+               bundle. The next bundle follows this field. This is
+               used by the linker to skip ordinal numbers.
+
+        001h-0FEh = Segment number for fixed segment entries. A fixed
+               segment entry is 3 bytes long and has the following
+               format.
+
+            DB  Flag word.
+                01h = Set if the entry is exported.
+                02h = Set if the entry uses a global (shared) data
+                      segments.
+                      The first assembly-language instruction in the
+                      entry point prologue must be "MOV AX,data
+                      segment number". This may be set only for
+                      SINGLEDATA library modules.
+
+            DW  Offset within segment to entry point.
+
+        0FFH = Moveable segment entries. The entry data contains the
+               segment number for the entry points. A moveable segment
+               entry is 6 bytes long and has the following format.
+
+            DB  Flag word.
+                01h = Set if the entry is exported.
+                02h = Set if the entry uses a global (shared) data
+                      segments.
+
+            INT 3FH.
+
+            DB  Segment number.
+
+            DW  Offset within segment to entry point.
+
+
+======================================================================
+                        NONRESIDENT-NAME TABLE
+======================================================================
+
+The nonresident-name table follows the entry table, and contains a
+module description and nonresident exported procedure name strings.
+The first string in this table is a module description. These name
+strings are case-sensitive and are not null-terminated. The name
+strings follow the same format as those defined in the resident name
+table.
+
+
+======================================================================
+                           PER SEGMENT DATA
+======================================================================
+
+The location and size of the per-segment data is defined in the
+segment table entry for the segment. If the segment has relocation
+fixups, as defined in the segment table entry flags, they directly
+follow the segment data in the file. The relocation fixup information
+is defined as follows:
+
+
+   Size Description
+   ---- -----------
+
+   DW   Number of relocation records that follow.
+
+   A table of relocation records follows. The following is the format
+   of each relocation record.
+
+        DB  Source type.
+            0Fh = SOURCE_MASK
+            00h = LOBYTE
+            02h = SEGMENT
+            03h = FAR_ADDR (32-bit pointer)
+            05h = OFFSET (16-bit offset)
+
+        DB  Flags byte.
+            03h = TARGET_MASK
+            00h = INTERNALREF
+            01h = IMPORTORDINAL
+            02h = IMPORTNAME
+            03h = OSFIXUP
+            04h = ADDITIVE
+
+        DW  Offset within this segment of the source chain.
+            If the ADDITIVE flag is set, then target value is added to
+            the source contents, instead of replacing the source and
+            following the chain. The source chain is an 0FFFFh
+            terminated linked list within this segment of all
+            references to the target.
+
+        The target value has four types that are defined in the flag
+        byte field. The following are the formats for each target
+        type:
+
+        INTERNALREF
+
+            DB  Segment number for a fixed segment, or 0FFh for a
+                movable segment.
+
+            DB  0
+
+            DW  Offset into segment if fixed segment, or ordinal
+                number index into Entry Table if movable segment.
+
+        IMPORTNAME
+
+            DW  Index into module reference table for the imported
+                module.
+
+            DW  Offset within Imported Names Table to procedure name
+                string.
+
+        IMPORTORDINAL
+
+            DW  Index into module reference table for the imported
+                module.
+            DW  Procedure ordinal number.
+
+        OSFIXUP
+
+            DW  Operating system fixup type.
+                Floating-point fixups.
+                0001h = FIARQQ, FJARQQ
+                0002h = FISRQQ, FJSRQQ
+                0003h = FICRQQ, FJCRQQ
+                0004h = FIERQQ
+                0005h = FIDRQQ
+                0006h = FIWRQQ
+
+            DW  0
+
+======================================================================
+
+Microsoft is a registered trademark and Windows is a trademark of
+Microsoft Corporation.
+
+Additional reference words: 3.0
+</pre>
+</div>
+</div></td></tr></tbody></table>
+</td><td width="0" valign="top"><div id="d0n"></div></td></tr></tbody></table>
+            </td>
+        </tr>
+        </tbody></table>
+    </td>
+    <td valign="top" height="100%">
+        <table cellspacing="0" cellpadding="0" height="100%">
+            <tbody><tr><td class="tdglyph"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/sau.png" width="9" height="16"></td></tr>
+            <tr><td class="tdglyph"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/scrollbut.png" width="9" height="16"></td></tr>
+            <tr><td valign="top" height="100%" class="tdglyphautovertscrollbg"></td></tr>
+            <tr><td class="tdglyph"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/sad.png" width="9" height="16"></td></tr>
+        </tbody></table>
+    </td>
+</tr>
+<tr>
+    <td valign="top">
+        <table cellspacing="0" cellpadding="0">
+        <tbody><tr><td class="tdglyph"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dll.png" width="9" height="16"></td></tr>
+        </tbody></table>
+    </td>
+    <td valign="top">
+        <table cellspacing="0" cellpadding="0" width="100%">
+        <tbody><tr>
+            <td class="tdglyph" valign="top"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dhm.png" width="9" height="16"></td>
+            <td valign="top" class="tdglyph"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/burst.png" width="9" height="16"></td>
+            <td class="tdglyph" valign="top"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dhm.png" width="9" height="16"></td>
+            <td class="tdglyph" valign="top"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dhm.png" width="9" height="16"></td>
+            <td class="tdglyph" valign="top"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dhm.png" width="9" height="16"></td>
+            <td class="tdglyph" valign="top"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dhm.png" width="9" height="16"></td>
+            <td valign="top"><table cellspacing="0" cellpadding="0"><tbody><tr><td class="dbxtitle">&nbsp;1:1&nbsp;</td></tr></tbody></table></td>
+            <td class="tdglyph" valign="top"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dhm.png" width="9" height="16"></td>
+            <td class="tdglyph" valign="top"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dhm.png" width="9" height="16"></td>
+            <td class="tdglyph" valign="top"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dhm.png" width="9" height="16"></td>
+            <td class="tdglyph" valign="top"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/dhm.png" width="9" height="16"></td>
+            <td valign="top" class="tdglyph"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/sal.png" width="9" height="16"></td>
+            <td valign="top" class="tdglyph"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/scrollbut.png" width="9" height="16"></td>
+            <td valign="top" width="100%" class="tdglyphautohorzscrollbg" nowrap="nowrap"></td>
+            <td valign="top" class="tdglyph"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/sar.png" width="9" height="16"></td>
+            <td valign="top" class="tdglyph"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/scrollhm.png" width="9" height="16"></td>
+        </tr>
+        </tbody></table>
+    </td>
+    <td valign="top">
+        <table cellspacing="0" cellpadding="0">
+        <tbody><tr>
+            <td class="tdglyph"><img src="./BYTE_ _ Windows 3.0 16-bit NE Executable Format_files/scrolllr.png" width="9" height="16"></td>
+        </tr>
+        </tbody></table>
+    </td>
+</tr>
+</tbody></table>
+
+
+</body></html>
